@@ -32,6 +32,13 @@ const userValidationSchema = z.object({
   }),
 });
 
+const loginValidationSchema = z.object({
+  body: z.object({
+    username: z.string(),
+    password: z.string()
+  })
+});
 export const userValidation = {
   userValidationSchema,
+  loginValidationSchema,
 };

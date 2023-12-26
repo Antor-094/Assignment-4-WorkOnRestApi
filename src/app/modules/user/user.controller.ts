@@ -1,20 +1,32 @@
-import catchAsync from "../../utils/catchAsync";
-import sendResponse from "../../utils/sendResponse";
-import { userServices } from "./user.service";
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { userServices } from './user.service';
 
 const registerUser = catchAsync(async (req, res) => {
+  const result = await userServices.registerUserIntoDB(req.body);
 
-    const result = await userServices.registerUserIntoDB(req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: 201,
+    message: 'User registered successfully',
+    data: result,
+  });
+});
+const logInUser = catchAsync(async (req, res) => {
+  const {user,accessToken} = await userServices.loginUserService(req.body);
 
-    sendResponse(res, {
-        success: true,
-        statusCode: 201,
-        message: "User registered successfully",
-        data: result
-    })
-
-})
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'User login successful',
+    data: {
+      user:user,
+      token: accessToken
+    },
+  });
+});
 
 export const userController = {
-    registerUser
-}
+  registerUser,
+  logInUser,
+};
