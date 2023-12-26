@@ -13,7 +13,6 @@ export const sortOptions: [string, SortOrder][] = [];
 export const priceFilter: Record<string, any> = {};
 export const tagFilter: Record<string, any> = {};
 export const dateFilter: Record<string, any> = {};
-export const filterByLanguage:Record<string,string> = {}
-export const filterByProvider: Record<string, string> = {}
-export const filterByLevel : Record<string,string>={}
-
+export const filterByLanguage: Record<string, string> = {};
+export const filterByProvider: Record<string, string> = {};
+export const filterByLevel: Record<string, string> = {};

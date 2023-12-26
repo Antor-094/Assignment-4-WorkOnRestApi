@@ -35,7 +35,7 @@ const getPaginatedAndFilterCoursesFromDB = async (
     startDate,
     language,
     provider,
-    level
+    level,
   } = query;
 
   if (sortBy && !allowedSortFields.includes(sortBy as string)) {
@@ -67,16 +67,15 @@ const getPaginatedAndFilterCoursesFromDB = async (
   }
 
   if (language !== undefined) {
-    filterByLanguage.language = language
+    filterByLanguage.language = language;
   }
 
   if (provider !== undefined) {
-    filterByProvider.provider = provider
+    filterByProvider.provider = provider;
   }
 
- 
-  if(level !== undefined){
-    filterByLevel['details.level'] = level
+  if (level !== undefined) {
+    filterByLevel['details.level'] = level;
   }
   const skip = (page - 1) * limit;
   const result = await Course.find({
@@ -85,13 +84,12 @@ const getPaginatedAndFilterCoursesFromDB = async (
     ...dateFilter,
     ...filterByLanguage,
     ...filterByProvider,
-    ...filterByLevel
-    
+    ...filterByLevel,
   })
     .sort(sortOptions)
     .skip(skip)
     .limit(parseInt(limit as string));
-    
+
   const totalCourse = await Course.find();
   return { result, limit, page, total: totalCourse.length };
 };
@@ -114,7 +112,7 @@ const getTheBestCourseWithHighestRatingFromDB = async () => {
     const averageRating =
       reviews.length > 0
         ? reviews.reduce((sum, review) => sum + review.rating, 0) /
-        reviews.length
+          reviews.length
         : 0;
 
     if (averageRating > highestAverageRating) {
@@ -145,7 +143,6 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
       updateObject['tags'] = updatedTags;
     }
   }
-  
 
   const updatedCourse = await Course.findByIdAndUpdate(
     id,

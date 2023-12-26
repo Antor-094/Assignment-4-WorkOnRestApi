@@ -18,7 +18,7 @@ const getAllCourses = catchAsync(async (req, res) => {
   // console.log(req.query)
   const { result, limit, page, total } =
     await courseService.getPaginatedAndFilterCoursesFromDB(req.query);
-   
+
   // console.log(result)
   sendResponse(res, {
     success: true,
