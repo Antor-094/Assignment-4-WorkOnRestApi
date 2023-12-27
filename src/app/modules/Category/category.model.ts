@@ -8,6 +8,12 @@ const categorySchema = new Schema<TCategory>({
     unique: true,
     trim: true,
   },
+  createdBy:{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  }
+},{
+  timestamps: true,
 });
 
 export const Category = model<TCategory>('Category', categorySchema);
