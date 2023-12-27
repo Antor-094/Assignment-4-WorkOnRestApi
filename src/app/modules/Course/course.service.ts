@@ -90,7 +90,11 @@ const getPaginatedAndFilterCoursesFromDB = async (
   })
     .sort(sortOptions)
     .skip(skip)
-    .limit(parseInt(limit as string));
+    .limit(parseInt(limit as string))
+    .populate({
+      path:'createdBy',
+      select:"-password -createdAt -updatedAt -__v"
+    });
 
   const totalCourse = await Course.find();
   return { result, limit, page, total: totalCourse.length };
