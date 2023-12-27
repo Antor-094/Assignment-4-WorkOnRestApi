@@ -154,7 +154,10 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
     id,
     { ...courseRemainingData, ...updateObject },
     { new: true, runValidators: true },
-  );
+  ).populate({
+    path:'createdBy',
+    select:"-password -createdAt -updatedAt -__v"
+  });
 
   if (!updatedCourse) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to update course');
