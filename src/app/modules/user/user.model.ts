@@ -20,6 +20,9 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: true,
     },
+    passwordChangedAt: {
+      type: Date,
+    },
     role: {
       type: String,
       enum: ['user', 'admin'],
@@ -50,6 +53,15 @@ userSchema.statics.isUserExistsByUserName = async function (username: string) {
 userSchema.statics.isPasswordMatched = async function(plaintextPassword,hashedPassword) {
   return await bcrypt.compare(plaintextPassword,hashedPassword)
 }
+
+userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
+  passwordChangedTimestamp: Date,
+  jwtIssuedTimestamp: number,
+) {
+  const passwordChangedTime =
+    new Date(passwordChangedTimestamp).getTime() / 1000;
+  return passwordChangedTime > jwtIssuedTimestamp;
+};
 
 const User = mongoose.model<TUser, UserModel>('User', userSchema);
 
