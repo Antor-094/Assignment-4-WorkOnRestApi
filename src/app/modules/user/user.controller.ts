@@ -13,32 +13,38 @@ const registerUser = catchAsync(async (req, res) => {
   });
 });
 const logInUser = catchAsync(async (req, res) => {
-  const {user,accessToken} = await userServices.loginUserService(req.body);
+  const { user, accessToken } = await userServices.loginUserService(req.body);
 
   sendResponse(res, {
     success: true,
     statusCode: 200,
     message: 'User login successful',
     data: {
-      user:user,
-      token: accessToken
+      user: user,
+      token: accessToken,
     },
   });
 });
 const changePassword = catchAsync(async (req, res) => {
-  const {currentPassword,newPassword} = req.body;
-  const result = await userServices.changePasswordService(req,res,req.user,currentPassword,newPassword);
+  const { currentPassword, newPassword } = req.body;
+  const result = await userServices.changePasswordService(
+    req,
+    res,
+    req.user,
+    currentPassword,
+    newPassword,
+  );
 
   sendResponse(res, {
     success: true,
     statusCode: 200,
     message: 'password change successful',
-    data: result
+    data: result,
   });
 });
 
 export const userController = {
   registerUser,
   logInUser,
-  changePassword
+  changePassword,
 };

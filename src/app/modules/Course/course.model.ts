@@ -64,6 +64,11 @@ const courseSchema = new Schema<TCourse>(
         required: true,
         trim: true,
       },
+     
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   {

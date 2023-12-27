@@ -19,11 +19,14 @@ const auth = (...requiredRoles: TUserRole[]) => {
         httpStatus.UNAUTHORIZED,
         'Unauthorized Access',
         true,
-        'You do not have the necessary permissions to access this resource.'
+        'You do not have the necessary permissions to access this resource.',
       );
     }
 
-    const decoded = jwt.verify(token, config.jwt_access_secret as string) as JwtPayload;
+    const decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
 
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const { userId, email, role, iat } = decoded;
@@ -34,8 +37,19 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.NOT_FOUND, 'User not found');
     }
 
-    if (user.passwordChangedAt && User.isJWTIssuedBeforePasswordChanged(user.passwordChangedAt, iat as number)) {
-      throw new CustomError(httpStatus.UNAUTHORIZED, 'Unauthorized Access', true, 'You do not have the necessary permissions to access this resource.');
+    if (
+      user.passwordChangedAt &&
+      User.isJWTIssuedBeforePasswordChanged(
+        user.passwordChangedAt,
+        iat as number,
+      )
+    ) {
+      throw new CustomError(
+        httpStatus.UNAUTHORIZED,
+        'Unauthorized Access',
+        true,
+        'You do not have the necessary permissions to access this resource.',
+      );
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
@@ -43,7 +57,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
         httpStatus.UNAUTHORIZED,
         'Unauthorized Access',
         true,
-        'You do not have the necessary permissions to access this resource.'
+        'You do not have the necessary permissions to access this resource.',
       );
     }
 

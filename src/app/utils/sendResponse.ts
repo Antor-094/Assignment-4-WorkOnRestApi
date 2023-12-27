@@ -5,7 +5,7 @@ type TResponse<T> = {
   success: boolean;
   message?: string;
   meta?: Record<string, number>;
-  data: T|null;
+  data: T | null;
 };
 
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {

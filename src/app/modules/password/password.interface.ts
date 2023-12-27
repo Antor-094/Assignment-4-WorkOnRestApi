@@ -1,6 +1,4 @@
-
-
 export type TUserPassword = {
-    email: string;
-    passwordArray:string[]
-}
+  email: string;
+  passwordArray: string[];
+};

@@ -48,11 +48,14 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.statics.isUserExistsByUserName = async function (username: string) {
-  return await User.findOne({ username })
+  return await User.findOne({ username });
 };
-userSchema.statics.isPasswordMatched = async function(plaintextPassword,hashedPassword) {
-  return await bcrypt.compare(plaintextPassword,hashedPassword)
-}
+userSchema.statics.isPasswordMatched = async function (
+  plaintextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plaintextPassword, hashedPassword);
+};
 
 userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
   passwordChangedTimestamp: Date,

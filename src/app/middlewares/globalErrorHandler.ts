@@ -49,8 +49,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   } else if (errorDetails instanceof CustomError) {
     statusCode = errorDetails?.statusCode;
     message = errorDetails.message;
-  }
-  else if (errorDetails instanceof Error) {
+  } else if (errorDetails instanceof Error) {
     message = errorDetails.message;
   }
 

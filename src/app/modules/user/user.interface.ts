@@ -14,10 +14,13 @@ export type TLoginUser = {
   username: string;
   password: string;
 };
-export type TUserRole = keyof typeof USER_ROLE
+export type TUserRole = keyof typeof USER_ROLE;
 export interface UserModel extends Model<TUser> {
   isUserExistsByUserName(username: string): Promise<TUser>;
-  isPasswordMatched(plaintextPassword:string,hashedPassword:string):Promise<boolean>;
+  isPasswordMatched(
+    plaintextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
   isJWTIssuedBeforePasswordChanged(
     passwordChangedTimestamp: Date,
     jwtIssuedTimestamp: number,

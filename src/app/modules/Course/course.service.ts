@@ -13,9 +13,11 @@ import {
 } from './course.constant';
 import { SortOrder, TCourse } from './course.interface';
 import { Course } from './course.model';
+import { JwtPayload } from 'jsonwebtoken';
 
-const createCourseIntoDB = async (payload: TCourse) => {
-  const result = await Course.create(payload);
+const createCourseIntoDB = async (createdBy:JwtPayload,payload: TCourse) => {
+  const {userId} = createdBy
+  const result = await Course.create({...payload,createdBy:userId});
   return result;
 };
 
