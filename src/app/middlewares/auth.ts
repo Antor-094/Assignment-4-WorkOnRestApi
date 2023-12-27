@@ -8,13 +8,14 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import User from '../modules/user/user.model';
 import { TUserRole } from '../modules/user/user.interface';
+import CustomError from '../error/CustomError';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
     if (!token) {
-      throw new AppError(
+      throw new CustomError(
         httpStatus.UNAUTHORIZED,
         'Unauthorized Access',
         true,
@@ -34,11 +35,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     if (user.passwordChangedAt && User.isJWTIssuedBeforePasswordChanged(user.passwordChangedAt, iat as number)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access', true, 'You do not have the necessary permissions to access this resource.');
+      throw new CustomError(httpStatus.UNAUTHORIZED, 'Unauthorized Access', true, 'You do not have the necessary permissions to access this resource.');
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
+      throw new CustomError(
         httpStatus.UNAUTHORIZED,
         'Unauthorized Access',
         true,

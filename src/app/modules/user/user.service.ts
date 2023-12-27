@@ -6,6 +6,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import { PasswordModel } from '../password/password.model';
 import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
+import PasswordError from '../../error/passwordError';
 const registerUserIntoDB = async (payload: TUser) => {
   const result = await User.create(payload);
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -20,12 +22,13 @@ const registerUserIntoDB = async (payload: TUser) => {
 
 const loginUserService = async (payload: TLoginUser) => {
   const user = await User.isUserExistsByUserName(payload.username);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { _id, email, role } = user as any
-
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found!!');
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { _id, email, role } = user as any
+
+ 
 
   const matchPassword = await User.isPasswordMatched(payload.password, user?.password)
   if (!matchPassword) {
@@ -54,22 +57,13 @@ const loginUserService = async (payload: TLoginUser) => {
   }
 };
 
-const changePasswordService = async (userData: JwtPayload, currentPassword: string, newPassword: string) => {
+const changePasswordService = async (req:Request,res:Response,userData: JwtPayload, currentPassword: string, newPassword: string) => {
 
   const user = await User.findById(userData.userId)
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
   }
 
-  const passwordMatchCheck = await User.isPasswordMatched(currentPassword, user?.password)
-
-  if (!passwordMatchCheck) {
-    throw new AppError(httpStatus.FORBIDDEN, 'Password does not matched!')
-  }
-
- if(newPassword===currentPassword){
-  throw new AppError(httpStatus.BAD_REQUEST, 'New password must be unique and different from the last 2 passwords and can not be current password')
- }
 
  const passwordHistory = await PasswordModel.findOne({ email: user.email });
 
@@ -80,8 +74,8 @@ const changePasswordService = async (userData: JwtPayload, currentPassword: stri
       if (bcrypt.compareSync(newPassword, password)) {
      const lastUsedTimestamp = user?.passwordChangedAt?.toLocaleString();
         const errorMessage = `New password must be unique and different from the last 2 passwords and cannot be the current password (last used on ${lastUsedTimestamp}).`;
-        console.log(lastUsedTimestamp)
-        throw new AppError(httpStatus.BAD_REQUEST, errorMessage);
+      
+        throw new PasswordError(httpStatus.BAD_REQUEST, errorMessage);
       }
     }
   }
@@ -110,7 +104,14 @@ const changePasswordService = async (userData: JwtPayload, currentPassword: stri
       passwordChangedAt: new Date(),
     },
   );
-  return result;
+  if (!result) {
+    // Handle the case where result is null or undefined
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Error updating user password');
+  }
+
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const { password, ...userWithoutPassword } = result.toObject();
+  return userWithoutPassword;
 
 
 }
