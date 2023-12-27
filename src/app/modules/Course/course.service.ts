@@ -101,7 +101,10 @@ const getPaginatedAndFilterCoursesFromDB = async (
 };
 
 const getCourseWithReviewFromDB = async (id: string) => {
-  const result = await Course.findById({ _id: new Object(id) });
+  const result = await Course.findById({ _id: new Object(id) }).populate({
+    path:'createdBy',
+    select:"-password -createdAt -updatedAt -__v"
+  });
   const reviews = await Review.find({ courseId: id });
   return { result, reviews };
 };
