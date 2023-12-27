@@ -18,6 +18,25 @@ const reviewSchema = new Schema<TReview>({
     required: true,
     trim: true,
   },
+  createdBy: {
+    _id:{
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    username: {
+      type: String,
+    
+    },
+    email:{
+      type: String,
+    },
+    role: {
+      type: String,
+    },
+  },
+}, 
+{
+  timestamps: true,
 });
 
 export const Review = model<TReview>('Review', reviewSchema);
