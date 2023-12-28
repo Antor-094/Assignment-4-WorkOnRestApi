@@ -1,6 +1,6 @@
 # L2B2A3 Course Review App
 
-Welcome to **L2B2A3 Course Review App**! This repository contains the source code for my course review web application. Follow the instructions below to run the application locally.
+Welcome to the **Course Review App**! This repository contains the source code for my course review web application. The application allows users to register, log in, and review various courses. Additionally, it includes functionality for administrators to manage courses and categories. Follow the instructions below to set up and run the application locally.
 
 ## Prerequisites
 
@@ -15,13 +15,13 @@ Make sure you have the following tools installed on your machine:
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/Porgramming-Hero-web-course/l2b2a3-course-review-Antor-094.git
+    git clone https://github.com/Porgramming-Hero-web-course/l2b2a4-course-review-with-auth-Antor-094.git
     ```
 
 2. **Navigate to the Project Directory:**
 
     ```bash
-    cd l2b2a3-course-review-Antor-094
+    cd l2b2a4-course-review-with-auth-Antor-094
     ```
 
 3. **Install Dependencies:**
@@ -52,6 +52,12 @@ Make sure you have the following tools installed on your machine:
 
     Visit [http://localhost:3000](http://localhost:3000) in your browser, and voilà!
 
+### Live Preview
+**[https://level2-assignment4-sable.vercel.app/](https://level2-assignment4-sable.vercel.app/)**
+
+## Api Documentation
+**[https://documenter.getpostman.com/view/31242163/2s9YkuaJtz](https://documenter.getpostman.com/view/31242163/2s9YkuaJtz)**
+
 ## Additional Commands
 
 - **Run Tests:**
@@ -60,18 +66,6 @@ Make sure you have the following tools installed on your machine:
     npm test
     ```
 
-    Run automated tests to ensure everything is working as expected.
+    Execute automated tests to ensure the functionality is working as expected.
 
-- **Linting:**
-
-    ```bash
-    npm run lint
-    ```
-
-    Check the code for linting errors.
-
-
-
-```
-
-Make sure to replace `your-mongodb-uri` with the actual MongoDB URI you'll be using for the project.
+- **Linting:
