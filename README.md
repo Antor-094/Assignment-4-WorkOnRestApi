@@ -1,4 +1,5 @@
-# L2B2A3 Course Review App
+# Course Review App 
+
 
 Welcome to the **Course Review App**! This repository contains the source code for my course review web application. The application allows users to register, log in, and review various courses. Additionally, it includes functionality for administrators to manage courses and categories. Follow the instructions below to set up and run the application locally.
 
